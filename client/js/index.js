@@ -26,5 +26,6 @@ document.querySelector('.form').addEventListener('submit', function(pEvent) {
     tr.appendChild(tdVolume);
     tbody.appendChild(tr);
 
+	// Clear form's fields
     document.querySelector('.form').reset();    
 });
