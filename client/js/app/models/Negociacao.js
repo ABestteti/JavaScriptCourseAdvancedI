@@ -7,19 +7,19 @@ class Negociacao {
         Object.freeze(this);
     }
 
-    obtemVolume()  {
+    get obtemVolume()  {
         return this._quantidade * this._valor;
     }
 
-    getData() {
+    get getData() {
         return new Date(this._data.getTime());
     }
 
-    getQuantidade() {
+    get getQuantidade() {
         return this._quantidade;
     }
 
-    getValor() {
+    get getValor() {
         return this._valor;
     }
 }

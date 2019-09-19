@@ -1,5 +1,12 @@
 class DateHelper {
-    textoParaData(texto) {
+	// DateHelper class is actually a static one once its
+	// methods are all static.
+
+	constructor() {
+		throw new Error('The class DateHelper cannot be instantiated.');
+	}
+
+    static textoParaData(texto) {
    		// Convert the "texto"  parameter
 		// to date object. Using spread operator "..."
 		// pass to Date's constructor.
@@ -13,9 +20,12 @@ class DateHelper {
         return new Date(...texto.split('-').map((item, indice) => item - (indice % 2)));
     }
 
-    dataParaTexto(data) {
-        return data.getDate()
-            + '/' + (data.getMonth() + 1)
-            + '/' + data.getFullYear();
+    static dataParaTexto(data) {
+
+		if (!!/^\d{4}-\d{2}-\d{2}$/.test(data)) {
+			throw new Error('Invalid date format, expected yyyy-mm-dd.');
+		}
+
+        return `${data.getDate()}/${data.getMonth() + 1}/${data.getFullYear()}`;
     }
 }
