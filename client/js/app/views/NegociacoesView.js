@@ -1,7 +1,7 @@
-class NegociacoesView {
+class NegociacoesView extends View {
 
-    constructor(elemento) {
-        this._elemento = elemento;
+    constructor(pElemento) {
+        super(pElemento);
     }
 
     _template(pModel) {
@@ -34,14 +34,7 @@ class NegociacoesView {
                   ${pModel.getNegociacoes.reduce((totalizador, negociacao) => totalizador + negociacao.obtemVolume, 0.0)}
                </td>
             </tfoot>
-     </table>
-            `;
-    }
-
-    update(pModel) {
-
-        // O innerHTML será responsável por converter as strings em 
-        // elementos do DOM. Isto será inserido com filho da <div>.
-        this._elemento.innerHTML = this._template(pModel);
+        </table>
+        `;
     }
 }
