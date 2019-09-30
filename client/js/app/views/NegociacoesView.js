@@ -4,7 +4,7 @@ class NegociacoesView extends View {
         super(pElemento);
     }
 
-    _template(pModel) {
+    template(pModel) {
 
         return `
         <table class="table table-hover table-bordered">

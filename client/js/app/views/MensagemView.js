@@ -4,7 +4,7 @@ class MensagemView extends View {
         super(pElemento);
     }
 
-    _template(pModel) {
+    template(pModel) {
   
       return pModel.getTexto ? `<p class="alert alert-info">${pModel.getTexto}</p>` : '<p></p>';
     }
