@@ -1,23 +1,12 @@
 class ListaNegociacoes {
     //constructor(pContexto, pArmadilha) {
-    constructor(pArmadilha) {
+    constructor() {
         this._negociacoes = [];
-        this._armadilha   = pArmadilha;
-        //this._contexto    = pContexto;
     }
 
     adiciona(negociacao) {
-        this._negociacoes.push(negociacao);
 
-        this._armadilha(this);
-        // Usa reflection do JavaScript para envocar a 
-        // funcao de atualizacao da view
-        // Reflect.apply recebe como parametros:
-        // Funcao para ser executada
-        // O contexto da classe que tem uma instancia de ListaNegociacoes
-        // Array contento os parametros para execucao da funcao, se a mesma
-        //   tiver parametros formais.
-        //Reflect.apply(this._armadilha, this._contexto, [this]);        
+        this._negociacoes.push(negociacao);
     }
 
     get getNegociacoes() {
@@ -36,16 +25,5 @@ class ListaNegociacoes {
     esvazia()   {
 
         this._negociacoes = [];
-
-
-        this._armadilha(this);
-        // Usa reflection do JavaScript para envocar a 
-        // funcao de atualizacao da view
-        // Reflect.apply recebe como parametros:
-        // Funcao para ser executada
-        // O contexto da classe que tem uma instancia de ListaNegociacoes
-        // Array contento os parametros para execucao da funcao, se a mesma
-        //   tiver parametros formais.
-        //Reflect.apply(this._armadilha, this._contexto, [this]);
     }
 }
