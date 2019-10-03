@@ -14,15 +14,15 @@ class NegociacaoController {
 		// para a chamada da funcao update. Ou seja, o Arrow functions mantêm o
 		// contexto lexo, mantendo a referencia da Classe de onde partiu a chamada para
 		// a funcao.
-		this._listaNegociacoes = new ListaNegociacoes((pModel) => {
+		//this._listaNegociacoes = new ListaNegociacoes((pModel) => {
 			// "this" aqui eh o contexto de NegociacaoController.
 			// o escopo de this é léxico, em vez de ser dinâmico como a outra função. 
 			// Isto significa que o this não mudará de acordo com o contexto. 
 			// Da maneira como estruturamos o código, o this será 
 			// NegociacaoController - esta condição será mantida independente do local 
 			// em que chamemos a arrow function, porque ela está amarrada a um escopo imutável.
-			this._negociacoesView.update(pModel);
-		});
+		//	this._negociacoesView.update(pModel);
+		//});
 
 		this._negociacoesView  = new NegociacoesView($('#negociacoesView'));
 
