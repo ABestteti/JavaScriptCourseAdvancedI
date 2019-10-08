@@ -7,6 +7,19 @@ class NegociacaoController {
 		this._inputQuantidade = $('#quantidade');
 		this._inputValor      = $('#valor');
 		
+		// Proxy implementation in order to update the view whenever a property is updated
+		// or a function from ListaNegociacoes class is executed.
+		this._negociacoesView = new Proxy(new ListaNegociacoes(), {
+			get (target, prop, receiver) {
+				if (['adiciona', 'esvazia'].includes(prop) && typeof(target[prop]) == typeof(Function)) {
+					return function() {
+						console.log(`Interceptado $[prop].`);
+						Reflect.apply(target[prop], target, arguments);
+					}
+				}
+				return Reflect.get(target, prop, receiver);
+			}
+		})
 		//this._listaNegociacoes = new ListaNegociacoes(this, function(pModel) {
 		//	this._negociacoesView.update(pModel);
 		//});
