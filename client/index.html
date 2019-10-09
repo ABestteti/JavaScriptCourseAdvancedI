@@ -55,20 +55,73 @@
     <script src="js/app/views/MensagemView.js"></script>
     <script src="js/app/controllers/NegociacaoController.js"></script>
     <script src="js/app/helpers/DateHelper.js"></script>
+    <script src="js/app/services/ProxyFactory.js"></script>
+    
     <script>
         let negociacaoController = new NegociacaoController();
     </script>
 
 <script>
-    let negociacao = new Proxy(new Negociacao(new Date(), 1, 100), {
-    get: function(target, prop, receiver) {
+    class Funcionario {
 
-         console.log(`a propriedade "${prop}" foi interceptada`);
-         return Reflect.get(target, prop, receiver);
+        constructor(email) {
+            this._email = email;
+        }
+
+        get email() {
+            return this._email;
+        }
+
+        set email(email) {
+            this._email = email;
+        }
+    }
+
+    class Pessoa {
+
+        constructor(nome) {
+            this._nome = nome;
+        }
+
+        get nome() {
+            return this._nome;
+        }
+
+        set nome(nome) {
+            this._nome = nome;
+        }
+
+        grita(frase) {
+            return `${this._nome} grita ${frase}`;
+        }
+    }
+
+    let pessoa = new Proxy(new Pessoa('Barney'), {
+
+    get(target, prop, receiver) {
+                if(prop == 'grita' && typeof(target[prop]) == typeof(Function)) {
+
+                    return function() {
+                        console.log(`Interceptei o método: ${prop}, por isso estou exbindo essa mensagem!`);    
+                        return Reflect.apply(target[prop], target, arguments);       
+                    }
+                }
+                return Reflect.get(target, prop, receiver);
+            }
+    });
+
+    console.log(pessoa.grita('Olá'));
+
+    let funcionario= new Proxy(new Funcionario('abc@abc.com'),  {
+
+    set(target, prop, value, receiver) {
+        console.log(prop); // imprimindo a propriedade que está sendo alterada
+        console.log(`Valor antigo ${target[prop]}, valor atual: ${value}`);
+        return Reflect.set(target, prop, value, receiver);
     }
     });
-    negociacao._quantidade = 10;
-    negociacao._valor = 100;
+
+    funcionario.email = 'aaa@aaa.com';
 </script>
 </body>
 </html>
