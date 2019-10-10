@@ -6,37 +6,44 @@ class NegociacaoController {
 		this._inputData       = $('#data');
 		this._inputQuantidade = $('#quantidade');
 		this._inputValor      = $('#valor');
-		
-		this._listaNegociacoes = ProxyFactory(
+				
+		this._listaNegociacoes = ProxyFactory.create	(
 			new ListaNegociacoes(), 
 			['adiciona', 'esvazia'],
 			(model) => {
-				this._negociacaoView.update(model);
+				this._negociacoesView.update(model);
 			});
-
-		//this._listaNegociacoes = new ListaNegociacoes(this, function(pModel) {
-		//	this._negociacoesView.update(pModel);
-		//});
-		// Implementacao com arrow function, pois o contexto de (this) eh passado
-		// para a chamada da funcao update. Ou seja, o Arrow functions mantêm o
-		// contexto lexo, mantendo a referencia da Classe de onde partiu a chamada para
-		// a funcao.
-		//this._listaNegociacoes = new ListaNegociacoes((pModel) => {
-			// "this" aqui eh o contexto de NegociacaoController.
-			// o escopo de this é léxico, em vez de ser dinâmico como a outra função. 
-			// Isto significa que o this não mudará de acordo com o contexto. 
-			// Da maneira como estruturamos o código, o this será 
-			// NegociacaoController - esta condição será mantida independente do local 
-			// em que chamemos a arrow function, porque ela está amarrada a um escopo imutável.
-		//	this._negociacoesView.update(pModel);
-		//});
-
+			
+			//this._listaNegociacoes = new ListaNegociacoes(this, function(pModel) {
+				//	this._negociacoesView.update(pModel);
+				//});
+				// Implementacao com arrow function, pois o contexto de (this) eh passado
+				// para a chamada da funcao update. Ou seja, o Arrow functions mantêm o
+				// contexto lexo, mantendo a referencia da Classe de onde partiu a chamada para
+				// a funcao.
+				//this._listaNegociacoes = new ListaNegociacoes((pModel) => {
+					// "this" aqui eh o contexto de NegociacaoController.
+					// o escopo de this é léxico, em vez de ser dinâmico como a outra função. 
+					// Isto significa que o this não mudará de acordo com o contexto. 
+					// Da maneira como estruturamos o código, o this será 
+					// NegociacaoController - esta condição será mantida independente do local 
+					// em que chamemos a arrow function, porque ela está amarrada a um escopo imutável.
+					//	this._negociacoesView.update(pModel);
+					//});
+					
 		this._negociacoesView  = new NegociacoesView($('#negociacoesView'));
 		// Faz a primeira renderizacao da lista, ainda que vazia.
 		this._negociacoesView.update(this._listaNegociacoes);
 
-		this._mensagem     = new Mensagem();
+		this._mensagem = ProxyFactory.create(
+			new Mensagem(),
+			['texto'],
+			(model) => {
+				this._mensagemView.update(mode)
+			});
+
 		this._mensagemView = new MensagemView($('#mensagemView'));
+		this._mensagemView.update(this._mensagem);
 	}
 
 	adiciona(pEvent) {
@@ -49,7 +56,6 @@ class NegociacaoController {
 		//this._negociacoesView.update(this._listaNegociacoes);
 
 		this._mensagem.setTexto('Negociacao adicionada com sucesso');
-		this._mensagemView.update(this._mensagem);
 
 		this._limpaFormulario();
 	}
@@ -63,7 +69,7 @@ class NegociacaoController {
         // this._negociacoesView.update(this._listaNegociacoes);
 
         this._mensagem.setTexto('Negociações apagadas com sucesso.');
-        this._mensagemView.update(this._mensagem);
+
 	}
 		
 	_criaNegociacao() {
