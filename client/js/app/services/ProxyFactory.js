@@ -9,8 +9,9 @@ class ProxyFactory {
                     if (props.includes(prop) && ProxyFactory._isFunction(target[prop])) {
                         return function() {
                             console.log(`Interceptado $[prop].`);
-                            Reflect.apply(target[prop], target, arguments);
-                            return acao(target);
+                            let retorno = Reflect.apply(target[prop], target, arguments);
+                            acao(target);
+                            return retorno;
                         }
                     }
                     return Reflect.get(target, prop, receiver);
