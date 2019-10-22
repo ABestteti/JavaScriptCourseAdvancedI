@@ -26,4 +26,9 @@ class ListaNegociacoes {
 
         this._negociacoes = [];
     }
+
+    // novo método
+    get getVolumeTotal() {
+        return this._negociacoes.reduce((totalizador, negociacao) => totalizador + negociacao.obtemVolume, 0.0);
+     }
 }

@@ -31,7 +31,8 @@ class NegociacoesView extends View {
             <tfoot>
                <td colspan="3"></td>
                <td>
-                  ${pModel.getNegociacoes.reduce((totalizador, negociacao) => totalizador + negociacao.obtemVolume, 0.0)}
+                  <!-- ${pModel.getNegociacoes.reduce((totalizador, negociacao) => totalizador + negociacao.obtemVolume, 0.0)} -->
+                  ${pModel.getVolumeTotal}
                </td>
             </tfoot>
         </table>
