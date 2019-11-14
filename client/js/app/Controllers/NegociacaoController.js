@@ -39,7 +39,7 @@ class NegociacaoController {
 			new Mensagem(),
 			['texto'],
 			(model) => {
-				this._mensagemView.update(mode)
+				this._mensagemView.update(model)
 			});
 
 		this._mensagemView = new MensagemView($('#mensagemView'));
@@ -62,20 +62,14 @@ class NegociacaoController {
 
 	importaNegociacoes() {
 
-		let service = new NegociacaoService();
-
-		Promise.all(
-			[service.obterNegociacoesDaSemana(),
-			 service.obterNegociacoesDaSemanaAnterior(),
-		     service.obterNegociacoesDaSemanaRetrasada()]
-		).then(negociacoes => {
-			negociacoes
-			.reduce((arrayAchatado, array) => arrayAchatado.concat(array), [])
-			.forEach(negociacao => {
-				this._listaNegociacoes.adiciona(negociacao)
-			});
-		})
-		.catch(erro => this._mensagem.setTexto(erro));
+        let service = new NegociacaoService();
+        service
+        .obterNegociacoes()
+        .then(negociacoes => {
+          negociacoes.forEach(negociacao => this._listaNegociacoes.adiciona(negociacao));
+          this._mensagem.texto = 'Negociações do período importadas com sucesso';
+        })
+        .catch(error => this._mensagem.texto = error); 
 
 		/*
 		service.obterNegociacoesDaSemana((erro, negociacoes) => {
