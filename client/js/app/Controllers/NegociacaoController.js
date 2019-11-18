@@ -13,7 +13,7 @@ class NegociacaoController {
 			(model) => {
 				this._negociacoesView.update(model);
 			});
-			
+
 			//this._listaNegociacoes = new ListaNegociacoes(this, function(pModel) {
 				//	this._negociacoesView.update(pModel);
 				//});
@@ -30,8 +30,11 @@ class NegociacaoController {
 					// em que chamemos a arrow function, porque ela está amarrada a um escopo imutável.
 					//	this._negociacoesView.update(pModel);
 					//});
-					
-		this._negociacoesView  = new NegociacoesView($('#negociacoesView'));
+		
+		// Memoria para a ordem atual da tabela
+		this._ordemAtual = ''; // quando a página for carregada, não tem critério. Só passa a ter quando ele começa a clicar nas colunas
+
+		this._negociacoesView  = new NegociacoesView($('#negociacoesView'), 'adiciona', 'esvazia', 'ordena', 'inverteOrdem');
 		// Faz a primeira renderizacao da lista, ainda que vazia.
 		this._negociacoesView.update(this._listaNegociacoes);
 
@@ -60,6 +63,21 @@ class NegociacaoController {
 		this._limpaFormulario();
 	}
 
+	ordena(coluna) {
+
+		// Usamos a sintaxe objeto[nomePropriedade] para 
+		// acessar a propriedade do objeto. 
+
+		if (this._ordemAtual == coluna) {
+			this._listaNegociacoes.inverteOrdem();
+		}
+		else {
+			this._listaNegociacoes.ordena((a, b) => a[coluna] - b[coluna]);
+		}
+
+		this._ordemAtual = coluna;
+	}
+
 	importaNegociacoes() {
 
         let service = new NegociacaoService();
@@ -67,9 +85,9 @@ class NegociacaoController {
         .obterNegociacoes()
         .then(negociacoes => {
           negociacoes.forEach(negociacao => this._listaNegociacoes.adiciona(negociacao));
-          this._mensagem.texto = 'Negociações do período importadas com sucesso';
+          this._mensagem.setTexto('Negociações do período importadas com sucesso');
         })
-        .catch(error => this._mensagem.texto = error); 
+        .catch(error => this._mensagem.setTexto(error)); 
 
 		/*
 		service.obterNegociacoesDaSemana((erro, negociacoes) => {
